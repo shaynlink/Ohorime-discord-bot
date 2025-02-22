@@ -1,0 +1,10 @@
+{
+  "adminGuildId": "1063473164295880754",
+  "dev": {
+    "enableInputInteraction": true,
+    "enterForLogin": true
+  },
+  "database": {
+    "name": "discord-bot"
+  }
+}

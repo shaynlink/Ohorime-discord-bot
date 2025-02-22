@@ -1,0 +1,37 @@
+{
+  "name": "base-discord-bot",
+  "version": "1.0.0",
+  "description": "A fully functional discord bot",
+  "main": "./dist/index.js",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start:docker": "node index.js",
+    "start": "node build/index.js",
+    "build": "tsc ",
+    "dev": "tsx watch src/index.ts"
+  },
+  "keywords": [],
+  "author": "Shaynlink (https://github.com/shaynlink)",
+  "license": "ISC",
+  "dependencies": {
+    "@napi-rs/canvas": "^0.1.67",
+    "bufferutil": "^4.0.9",
+    "chalk": "^5.4.1",
+    "discord.js": "^14.17.3",
+    "dotenv": "^16.4.7",
+    "lodash": "^4.17.21",
+    "mongodb": "^6.13.0",
+    "redis": "^4.7.0",
+    "tslib": "^2.8.1",
+    "undici": "^7.3.0",
+    "zlib-sync": "^0.1.9"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.17.15",
+    "@types/node": "^22.13.0",
+    "ts-node-dev": "^2.0.0",
+    "tsx": "^4.19.2"
+  },
+  "packageManager": "pnpm@10.3.0+sha512.ee592eda8815a8a293c206bb0917c4bb0ff274c50def7cbc17be05ec641fc2d1b02490ce660061356bd0d126a4d7eb2ec8830e6959fb8a447571c631d5a2442d"
+}
