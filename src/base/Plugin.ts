@@ -30,6 +30,10 @@ export default class PluginBase {
   }
 
   addCommand(command: Command) {
+    command.executor = command.executor?.bind({
+      plugin: this,
+      command
+    }) ?? null;
     this.commands.set(command.metadata.name, command);
     this.intents.add(command.intents);
     this.partials = _.union(this.partials, command.partials);

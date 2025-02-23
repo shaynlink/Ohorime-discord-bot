@@ -1,4 +1,4 @@
-import { Worker, isMainThread, workerData } from 'node:worker_threads';
+import { Worker, isMainThread, workerData, parentPort } from 'node:worker_threads';
 import { resolve } from 'node:path';
 import { createCanvas, loadImage, type Canvas } from '@napi-rs/canvas';
 
@@ -53,6 +53,6 @@ if (!isMainThread) {
 
     context.drawImage(avatar, 25, 25, 200, 200);
 
-    return canvas.toBuffer('image/png');
+    parentPort?.postMessage(await canvas.encode('png'));
   })()
 }

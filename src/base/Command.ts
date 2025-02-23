@@ -1,4 +1,3 @@
-import { EventEmitter } from 'node:events';
 import {
   IntentsBitField,
   Partials,
@@ -8,7 +7,7 @@ import {
 import _ from 'lodash';
 import type { CommandExecutorFn } from '../type';
 
-export default class Command extends EventEmitter {
+export default class Command {
   public metadata: SlashCommandBuilder;
   public partials: Partials[];
   public intents: IntentsBitField;
@@ -17,7 +16,6 @@ export default class Command extends EventEmitter {
   public selectMenus: Array<{ id: string, callback: CommandExecutorFn<StringSelectMenuInteraction> }>;
 
   constructor() {
-    super();
     this.metadata = new SlashCommandBuilder();
     this.partials = [];
     this.intents = new IntentsBitField();
@@ -42,7 +40,7 @@ export default class Command extends EventEmitter {
   }
 
   setExecutor(callback: CommandExecutorFn) {
-    this.executor = callback.bind(this);
+    this.executor = callback;
     return this;
   }
   

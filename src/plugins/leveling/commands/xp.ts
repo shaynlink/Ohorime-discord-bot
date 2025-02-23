@@ -6,6 +6,8 @@ import { getLevelInfo } from '../helpers/leveling';
 import type LevelPlugin from '..';
 import type { Stats } from '../struct';
 import generateImage from '../workers/generate-level-img';
+import PluginBase from '../../../base/Plugin';
+import type { CommandBinding } from '../../../type';
 
 export default new Command()
   .setMetadata(
@@ -15,17 +17,19 @@ export default new Command()
   )
   .setPartials([Partials.Message])
   .setIntents((intents) => intents.add(IntentsBitField.Flags.GuildMessages))
-  .setExecutor(async function(this: LevelPlugin, client, interaction) {
+  .setExecutor(async function(this: CommandBinding, client, interaction) {
     if (!interaction.inGuild()) return;
 
-    let xp: Partial<WithId<Stats>> | null = await this.statsColl.findOne({ userId: interaction.user.id, guildId: interaction.guildId });
+    const plugin = this.plugin as LevelPlugin;
+
+    let xp: Partial<WithId<Stats>> | null = await plugin.statsColl.findOne({ userId: interaction.user.id, guildId: interaction.guildId });
 
     let replied = false;
 
     if (!xp) {
       await interaction.reply('You haven\'t not experience points yet');
       replied = true;
-      await this.statsColl.insertOne({ userId: interaction.user.id, guildId: interaction.guildId, nbMessages: 0 });
+      await plugin.statsColl.insertOne({ userId: interaction.user.id, guildId: interaction.guildId, nbMessages: 0 });
 
       xp = {
         nbMessages: 0
@@ -45,7 +49,7 @@ export default new Command()
 
     console.log(image);
 
-    const attachment = new AttachmentBuilder(image, { name: `level-${interaction.user.id}.png` });
+    const attachment = new AttachmentBuilder(Buffer.from(image), { name: `level-${interaction.user.id}.png` });
 
     if (!replied) {
       await interaction.reply({

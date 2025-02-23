@@ -12,6 +12,7 @@ import _ from 'lodash';
 import chalk from 'chalk';
 import type BasePlugin from './base/Plugin';
 import { listOnlyFiles } from './helpers/utils';
+import config from '../config.json' with { type: 'json' };
 
 // Events
 import debug from './events/debug';
@@ -105,7 +106,8 @@ export default class Client<Ready extends boolean = boolean> extends DiscordClie
 
     commands.forEach((command) => console.log('Registering command %s', chalk.yellow(command.name)));
 
-    this.rest.put(Routes.applicationCommands(process.env.DISCORD_CLIENT_ID as string), { body: commands });
+    // await this.rest.put(Routes.applicationCommands(process.env.DISCORD_CLIENT_ID as string), { body: commands });
+    await this.rest.put(Routes.applicationGuildCommands(process.env.DISCORD_CLIENT_ID as string, config.adminGuildId), { body: commands });
   }
 
   getCommandByName(name: string) {
